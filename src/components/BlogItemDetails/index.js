@@ -1,10 +1,13 @@
 // Write your JS code here
+import Loader from 'react-loader-spinner'
+
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import './index.css'
 
 import {Component} from 'react'
 
 class BlogItemDetailsComponent extends Component {
-  state = {arrayFullData: {}}
+  state = {arrayFullData: {}, isTrue: true}
 
   componentDidMount() {
     this.makingServerCallBasedOnId()
@@ -33,26 +36,32 @@ class BlogItemDetailsComponent extends Component {
 
       console.log(arrayKeyModificationData)
 
-      this.setState({arrayFullData: arrayKeyModificationData})
+      this.setState({arrayFullData: arrayKeyModificationData, isTrue: false})
     } catch (error) {
       console.log('yourError Occured:=>', error.message)
     }
   }
 
   render() {
-    const {arrayFullData} = this.state
+    const {arrayFullData, isTrue} = this.state
     const {author, avatarUrl, content, imageUrl, title, topic} = arrayFullData
     return (
-      <div className="aminBLog">
-        <h1>{title}</h1>
-        <p>
-          <img className="avatarLo" src={avatarUrl} alt={author} /> {author}
-        </p>
-        <div>
-          <img className="blogImg" src={imageUrl} alt={topic} />
-        </div>
-        <p>{content}</p>
-      </div>
+      <>
+        {isTrue ? (
+          <Loader type="TailSpin" color="#00bfff" height={50} width={50} />
+        ) : (
+          <div className="aminBLog">
+            <h1>{title}</h1>
+            <p>
+              <img className="avatarLo" src={avatarUrl} alt={author} /> {author}
+            </p>
+            <div>
+              <img className="blogImg" src={imageUrl} alt={topic} />
+            </div>
+            <p>{content}</p>
+          </div>
+        )}
+      </>
     )
   }
 }
